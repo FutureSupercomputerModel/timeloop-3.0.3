@@ -1,0 +1,7 @@
+t0
+R 1 S 1 P 1 Q 1 C 1 K 128 N 1 
+K
+s0
+R 3 S 3 P 1 Q 1 C 64 K 1 N 1 
+RSC
+6
