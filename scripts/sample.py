@@ -46,11 +46,11 @@ import timeloop
 import parse_timeloop_output
 import layerFuser
 
-config_abspath = os.path.join(root_dir, 'configs/mapper/sample-no-dram.yaml')
+config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy-no-dram.yaml')
 
 # Just test that path points to a valid config file.
 with open(config_abspath, 'r') as f:
-    config = yaml.load(f)
+    config = yaml.full_load(f)
 fused_groups = layerFuser.fuse_layer(config, cnn_layers)
 
 for i in range(0, len(fused_groups)):
