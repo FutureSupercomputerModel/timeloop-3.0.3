@@ -1,0 +1,1094 @@
+Preparing to run timeloop for problem index  0
+Workload Dimensions:
+  W        = 224
+  H        = 224
+  C        = 3
+  K        = 64
+  S        = 3
+  R        = 3
+  P        = 224
+  Q        = 224
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.4882199409985333
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 86704128,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([86705856, 86857356,        0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 1200987791.276382,
+                                          'energy_per_access_per_instance': array([6.91959799, 6.91959958,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([  1728, 153228,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 1199915557.8061094,
+                                          'reads_per_instance': array([86704128, 86704128,        0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 1200987791.276382,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.5911102294921875},
+                         'MAC': {'energy': 21676032.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([     1728,    153228, 170196992]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 17035196800.0,
+                                        'energy_per_access_per_instance': array([100.        , 100.01305244, 100.        ]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 8364784000.0,
+                                        'reads_per_instance': array([    1728,   153228, 83492864]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 17035196800.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([       0,        0, 86704128]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 18257860623.276382,
+ 'energy_per_mac': 210.5766016501127,
+ 'macs': 86704128,
+ 'problem': [3, 3, 224, 224, 3, 64, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  1
+Workload Dimensions:
+  W        = 224
+  H        = 224
+  C        = 64
+  K        = 64
+  S        = 3
+  R        = 3
+  P        = 224
+  Q        = 224
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.3682676079988596
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 1849688064,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([1849724928,          0,          0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 12799352893.748745,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([36864,     0,     0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 12799097809.688444,
+                                          'reads_per_instance': array([1849688064,          0,          0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 12799352893.748745,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.140625},
+                         'MAC': {'energy': 462422016.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([     36864, 1849688064, 3696164864]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 554588979200.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 369620172800.0,
+                                        'reads_per_instance': array([     36864, 1849688064, 1846476800]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 554588979200.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([         0,          0, 1849688064]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 567850754109.7488,
+ 'energy_per_mac': 306.99811777006136,
+ 'macs': 1849688064,
+ 'problem': [3, 3, 224, 224, 64, 64, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  2
+Workload Dimensions:
+  W        = 112
+  H        = 112
+  C        = 64
+  K        = 128
+  S        = 3
+  R        = 3
+  P        = 112
+  Q        = 112
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.3738661539973691
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 924844032,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([924917760,         0,         0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 6400059072.964825,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([73728,     0,     0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 6399548904.844222,
+                                          'reads_per_instance': array([924844032,         0,         0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 6400059072.964825,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.28125},
+                         'MAC': {'energy': 231211008.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([     73728,  924844032, 1848082432]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 277300019200.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 184815616000.0,
+                                        'reads_per_instance': array([    73728, 924844032, 923238400]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 277300019200.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([        0,         0, 924844032]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 283931289280.96484,
+ 'energy_per_mac': 307.00451044372943,
+ 'macs': 924844032,
+ 'problem': [3, 3, 112, 112, 64, 128, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  3
+Workload Dimensions:
+  W        = 112
+  H        = 112
+  C        = 128
+  K        = 128
+  S        = 3
+  R        = 3
+  P        = 112
+  Q        = 112
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.3940965510046226
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 1849688064,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([1849835520,          0,          0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 12800118145.92965,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([147456,      0,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 12799097809.688444,
+                                          'reads_per_instance': array([1849688064,          0,          0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 12800118145.92965,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.5625},
+                         'MAC': {'energy': 462422016.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([    147456, 1849688064, 3697770496]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 554760601600.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 369791795200.0,
+                                        'reads_per_instance': array([    147456, 1849688064, 1848082432]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 554760601600.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([         0,          0, 1849688064]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 568023141761.9297,
+ 'energy_per_mac': 307.091315999285,
+ 'macs': 1849688064,
+ 'problem': [3, 3, 112, 112, 128, 128, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  4
+Workload Dimensions:
+  W        = 56
+  H        = 56
+  C        = 128
+  K        = 256
+  S        = 3
+  R        = 3
+  P        = 56
+  Q        = 56
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.36905801400280325
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 924844032,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([925138944,         0,         0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 6401589577.326634,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([294912,      0,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 6399548904.844222,
+                                          'reads_per_instance': array([924844032,         0,         0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 6401589577.326634,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.375},
+                         'MAC': {'energy': 231211008.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([    294912,  924844032, 1848885248]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 277402419200.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 184918016000.0,
+                                        'reads_per_instance': array([   294912, 924844032, 924041216]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 277402419200.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([        0,         0, 924844032]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 284035219785.32666,
+ 'energy_per_mac': 307.1168866939573,
+ 'macs': 924844032,
+ 'problem': [3, 3, 56, 56, 128, 256, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  5
+Workload Dimensions:
+  W        = 56
+  H        = 56
+  C        = 256
+  K        = 256
+  S        = 3
+  R        = 3
+  P        = 56
+  Q        = 56
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.37264373899961356
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 1849688064,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([1850277888,          0,          0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 12803179154.653269,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([589824,      0,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 12799097809.688444,
+                                          'reads_per_instance': array([1849688064,          0,          0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 12803179154.653269,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.75},
+                         'MAC': {'energy': 462422016.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([    589824, 1849688064, 3698573312]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 554885120000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 369916313600.0,
+                                        'reads_per_instance': array([    589824, 1849688064, 1848885248]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 554885120000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([         0,          0, 1849688064]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 568150721170.6533,
+ 'energy_per_mac': 307.1602894717351,
+ 'macs': 1849688064,
+ 'problem': [3, 3, 56, 56, 256, 256, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  6
+Workload Dimensions:
+  W        = 56
+  H        = 56
+  C        = 256
+  K        = 256
+  S        = 3
+  R        = 3
+  P        = 56
+  Q        = 56
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.3705294160026824
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 1849688064,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([1850277888,          0,          0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 12803179154.653269,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([589824,      0,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 12799097809.688444,
+                                          'reads_per_instance': array([1849688064,          0,          0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 12803179154.653269,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.75},
+                         'MAC': {'energy': 462422016.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([    589824, 1849688064, 3698573312]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 554885120000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 369916313600.0,
+                                        'reads_per_instance': array([    589824, 1849688064, 1848885248]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 554885120000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([         0,          0, 1849688064]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 568150721170.6533,
+ 'energy_per_mac': 307.1602894717351,
+ 'macs': 1849688064,
+ 'problem': [3, 3, 56, 56, 256, 256, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  7
+Workload Dimensions:
+  W        = 28
+  H        = 28
+  C        = 256
+  K        = 512
+  S        = 3
+  R        = 3
+  P        = 28
+  Q        = 28
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.37851881299866363
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 924844032,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([        0, 925074432,         0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 6401143180.221107,
+                                          'energy_per_access_per_instance': array([       nan, 6.91959799,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([     0, 230400,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 6399548904.844222,
+                                          'reads_per_instance': array([        0, 924844032,         0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 6401143180.221107,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.87890625},
+                         'MAC': {'energy': 231211008.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([ 924844032,     230400, 1849286656]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 277436108800.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 184951705600.0,
+                                        'reads_per_instance': array([924844032,    230400, 924442624]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 277436108800.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([        0,         0, 924844032]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 284068462988.2211,
+ 'energy_per_mac': 307.1528313524557,
+ 'macs': 924844032,
+ 'problem': [3, 3, 28, 28, 256, 512, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  8
+Workload Dimensions:
+  W        = 28
+  H        = 28
+  C        = 512
+  K        = 512
+  S        = 3
+  R        = 3
+  P        = 28
+  Q        = 28
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.30951203600125154
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 1849688064,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([1852047360,          0,          0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 12815423189.54774,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([2359296,       0,       0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 12799097809.688444,
+                                          'reads_per_instance': array([1849688064,          0,          0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 12815423189.54774,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 1.0},
+                         'MAC': {'energy': 462422016.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([   2359296, 1849688064, 3698974720]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 555102208000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 370133401600.0,
+                                        'reads_per_instance': array([   2359296, 1849688064, 1849286656]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 555102208000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([         0,          0, 1849688064]),
+                                        'utilization': 0.9999999999999999},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 568380053205.5477,
+ 'energy_per_mac': 307.28427363931337,
+ 'macs': 1849688064,
+ 'problem': [3, 3, 28, 28, 512, 512, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  9
+Workload Dimensions:
+  W        = 28
+  H        = 28
+  C        = 512
+  K        = 512
+  S        = 3
+  R        = 3
+  P        = 28
+  Q        = 28
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.31659504999697674
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 1849688064,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([1852047360,          0,          0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 12815423189.54774,
+                                          'energy_per_access_per_instance': array([6.91959799,        nan,        nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([2359296,       0,       0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 12799097809.688444,
+                                          'reads_per_instance': array([1849688064,          0,          0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 12815423189.54774,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 1.0},
+                         'MAC': {'energy': 462422016.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([   2359296, 1849688064, 3698974720]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 555102208000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 370133401600.0,
+                                        'reads_per_instance': array([   2359296, 1849688064, 1849286656]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 555102208000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([         0,          0, 1849688064]),
+                                        'utilization': 0.9999999999999999},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 568380053205.5477,
+ 'energy_per_mac': 307.28427363931337,
+ 'macs': 1849688064,
+ 'problem': [3, 3, 28, 28, 512, 512, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  10
+Workload Dimensions:
+  W        = 14
+  H        = 14
+  C        = 512
+  K        = 512
+  S        = 3
+  R        = 3
+  P        = 14
+  Q        = 14
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.5226431780029088
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 462422016,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([        0, 462553088, 924743680]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 9599535927.316586,
+                                          'energy_per_access_per_instance': array([       nan, 6.91959799, 6.91959799]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([     0, 131072,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 6398854509.346735,
+                                          'reads_per_instance': array([        0, 462422016, 462321664]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 9599535927.316586,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([        0,         0, 462422016]),
+                                          'utilization': 0.8828125},
+                         'MAC': {'energy': 115605504.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([462422016,    131072,    100352]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 46265344000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 46255308800.0,
+                                        'reads_per_instance': array([462422016,    131072,         0]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 46265344000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([     0,      0, 100352]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 55980485431.31659,
+ 'energy_per_mac': 121.05929971836936,
+ 'macs': 462422016,
+ 'problem': [3, 3, 14, 14, 512, 512, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  11
+Workload Dimensions:
+  W        = 14
+  H        = 14
+  C        = 512
+  K        = 512
+  S        = 3
+  R        = 3
+  P        = 14
+  Q        = 14
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.5857150790034211
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 462422016,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([        0, 462553088, 924743680]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 9599535927.316586,
+                                          'energy_per_access_per_instance': array([       nan, 6.91959799, 6.91959799]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([     0, 131072,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 6398854509.346735,
+                                          'reads_per_instance': array([        0, 462422016, 462321664]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 9599535927.316586,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([        0,         0, 462422016]),
+                                          'utilization': 0.8828125},
+                         'MAC': {'energy': 115605504.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([462422016,    131072,    100352]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 46265344000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 46255308800.0,
+                                        'reads_per_instance': array([462422016,    131072,         0]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 46265344000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([     0,      0, 100352]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 55980485431.31659,
+ 'energy_per_mac': 121.05929971836936,
+ 'macs': 462422016,
+ 'problem': [3, 3, 14, 14, 512, 512, 1],
+ 'utilization': 1.0}
+Preparing to run timeloop for problem index  12
+Workload Dimensions:
+  W        = 14
+  H        = 14
+  C        = 512
+  K        = 512
+  S        = 3
+  R        = 3
+  P        = 14
+  Q        = 14
+  N        = 1
+  W-pad    = 1
+  H-pad    = 1
+  W-stride = 1
+  H-stride = 1
+
+Running timeloop to get mapping
+Time to run timeloop =  0.626901313997223
+Run successful, see log for text stats, or use the Python parser to parse the XML stats.
+Stats from run:
+{'cycles': 462422016,
+ 'energy_breakdown_pJ': {'GlobalBuffer': {'accesses_per_instance': array([        0, 462553088, 924743680]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 9599535927.316586,
+                                          'energy_per_access_per_instance': array([       nan, 6.91959799, 6.91959799]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([     0, 131072,      0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 6398854509.346735,
+                                          'reads_per_instance': array([        0, 462422016, 462321664]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 9599535927.316586,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([        0,         0, 462422016]),
+                                          'utilization': 0.8828125},
+                         'MAC': {'energy': 115605504.0, 'utilization': 1.0},
+                         'MainMemory': {'accesses_per_instance': array([462422016,    131072,    100352]),
+                                        'address_generation_energy': 0.0,
+                                        'dist_multicast': array([0, 0, 0]),
+                                        'energy': 46265344000.0,
+                                        'energy_per_access_per_instance': array([100., 100., 100.]),
+                                        'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                        'fills_per_instance': array([0, 0, 0]),
+                                        'ingresses': 0,
+                                        'instances': array([1., 1., 1.]),
+                                        'multicast': array([1, 1, 1]),
+                                        'network_energy': 0.0,
+                                        'num_hops': array([0., 0., 0.]),
+                                        'read_energy': 46255308800.0,
+                                        'reads_per_instance': array([462422016,    131072,         0]),
+                                        'spatial_add_energy': 0.0,
+                                        'storage_access_energy': 46265344000.0,
+                                        'temporal_add_energy': 0.0,
+                                        'updates_per_instance': array([     0,      0, 100352]),
+                                        'utilization': 1.0},
+                         'RegisterFile': {'accesses_per_instance': array([0, 0, 0]),
+                                          'address_generation_energy': 0.0,
+                                          'dist_multicast': array([0, 0, 0]),
+                                          'energy': 0.0,
+                                          'energy_per_access_per_instance': array([nan, nan, nan]),
+                                          'energy_per_hop_per_instance': array([0., 0., 0.]),
+                                          'fills_per_instance': array([0, 0, 0]),
+                                          'ingresses': 0,
+                                          'instances': array([1., 1., 1.]),
+                                          'multicast': array([1, 1, 1]),
+                                          'network_energy': 0.0,
+                                          'num_hops': array([0., 0., 0.]),
+                                          'read_energy': 0.0,
+                                          'reads_per_instance': array([0, 0, 0]),
+                                          'spatial_add_energy': 0.0,
+                                          'storage_access_energy': 0.0,
+                                          'temporal_add_energy': 0.0,
+                                          'updates_per_instance': array([0, 0, 0]),
+                                          'utilization': 0.0}},
+ 'energy_pJ': 55980485431.31659,
+ 'energy_per_mac': 121.05929971836936,
+ 'macs': 462422016,
+ 'problem': [3, 3, 14, 14, 512, 512, 1],
+ 'utilization': 1.0}
+DONE.
+Total cycles:  15346630656

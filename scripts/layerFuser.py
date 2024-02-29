@@ -84,6 +84,8 @@ def fuse_layer(config, cnn_layers):
                     fused_layers[j][0] = temp_W_p
                     fused_layers[j][1] = temp_H_p
                     fused_layers[j][3] = cnn_layers[i][3]*temp_tile_count
+                    fused_layers[j][7] = 0 #set padding to 0
+                    fused_layers[j][8] = 0 #set padding to 0
             if(len(fused_layers)>0):
                 fused_groups.insert(0, fused_layers)
             fused_layers = []
@@ -105,6 +107,8 @@ def fuse_layer(config, cnn_layers):
             fused_layers[j][0] = temp_W_p
             fused_layers[j][1] = temp_H_p
             fused_layers[j][3] = cnn_layers[i][3]*temp_tile_count
+            fused_layers[j][7] = 0 #set padding to 0
+            fused_layers[j][8] = 0 #set padding to 0
     if(len(fused_layers)>0):
         fused_groups.insert(0, fused_layers)
     fused_layers = []

@@ -46,33 +46,33 @@ import timeloop
 import parse_timeloop_output
 import layerFuser
 
-config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy-no-dram.yaml')
+config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy.yaml')
 
 # Just test that path points to a valid config file.
 with open(config_abspath, 'r') as f:
     config = yaml.full_load(f)
-fused_groups = layerFuser.fuse_layer(config, cnn_layers)
 
-for i in range(0, len(fused_groups)):
-    for j in range(0, len(fused_groups[i])):
-        index = i*len(fused_groups[i])+j
-        # print(fused_groups[i][j])
-        fused_groups[i][j][3]=1
-        problem = fused_groups[i][j]
+total_cycles=0
+for i in range(0, len(cnn_layers)):
+        
+    problem = cnn_layers[i]
 
-        print("Preparing to run timeloop for problem index ", i)
+    print("Preparing to run timeloop for problem index ", i)
 
-        dirname = 'run/problem_' + str(index) + '/'
-        subprocess.check_call(['mkdir', '-p', dirname])
+    dirname = 'run_default/problem_' + str(i) + '/'
+    subprocess.check_call(['mkdir', '-p', dirname])
 
-        timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)
+    timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)
 
-        stats = parse_timeloop_output.parse_timeloop_stats(dirname)
-        if stats == {}:
-            print("Timeloop couldn't find a mapping for this problem within the search parameters, please check the log for more details.")
-        else:
-            print("Run successful, see log for text stats, or use the Python parser to parse the XML stats.")
-            print("Stats from run:")
-            pprint.pprint(stats)
+    stats = parse_timeloop_output.parse_timeloop_stats(dirname)
+    if stats == {}:
+        print("Timeloop couldn't find a mapping for this problem within the search parameters, please check the log for more details.")
+    else:
+        print("Run successful, see log for text stats, or use the Python parser to parse the XML stats.")
+        print("Stats from run:")
+        pprint.pprint(stats)
+        total_cycles+=stats['cycles']
+        print("problem cycles: ", stats['cycles'])
 
 print("DONE.")
+print("Total cycles: ", total_cycles)
