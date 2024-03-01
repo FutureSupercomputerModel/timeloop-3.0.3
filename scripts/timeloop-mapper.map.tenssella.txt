@@ -1,8 +1,8 @@
 #error Tenssella does not support bypass.
 #error Tenssella does not support bypass.
 t1
-R 1 S 1 P 1 Q 1 C 512 K 1 N 1 
-C
+R 3 S 3 P 1 Q 1 C 1 K 1 N 1 
+RS
 t0
-R 3 S 3 P 1 Q 1 C 1 K 512 N 1 
-RSK
+R 1 S 1 P 1 Q 1 C 64 K 128 N 1 
+CK
