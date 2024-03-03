@@ -52,14 +52,14 @@ config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy.yaml')
 with open(config_abspath, 'r') as f:
     config = yaml.full_load(f)
 
-total_cycles=0
+total_cycles = 0 
 for i in range(0, len(cnn_layers)):
-        
+    
     problem = cnn_layers[i]
 
     print("Preparing to run timeloop for problem index ", i)
 
-    dirname = 'run_default/problem_' + str(i) + '/'
+    dirname = 'run_no_dram/problem_' + str(i) + '/'
     subprocess.check_call(['mkdir', '-p', dirname])
 
     timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)

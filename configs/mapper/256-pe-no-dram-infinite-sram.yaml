@@ -1,0 +1,247 @@
+#
+mapspace_constraints:
+  targets:
+    # intuitive optimization to not tile R and S at the GLB level
+    - target: SRAM_Shared
+      type: temporal
+      factors: R=1 S=1
+    # intuitive optimization according to architecture dimensions
+    - target: SRAM_Shared
+      type: spatial
+      factors:  M=16 C=16
+     # intuitive optimization to not tile R and S at the DRAM level
+     #- target: DRAM
+     # type: temporal
+     # factors: R=1 S=1
+    # optimization to constrain the amplification factor of R and S to only one register
+    - target: Output_Reg
+      type: temporal
+      factors: R=1 S=1
+
+architecture_constraints:
+  targets:
+    # pe spad only stored weights
+    - target: PE_Mem
+      type: bypass
+      bypass: [Inputs, Outputs]
+      keep: [Weights]
+    # pe spad keeps weights stationary
+    - target: PE_Mem
+      type: temporal
+      permutation: PQRS
+    # NoC sending C in x direction, M in y direction; parallel-for loops for C and M only
+    - target: SRAM_Shared
+      type: bypass
+      keep: [Inputs, Weights, Outputs]
+    - target: SRAM_Shared
+      type: spatial
+      permutation: CM
+      split: 1
+      factors: R=1 S=1 P=1 Q=1
+      # Store everything at the glb
+    - target: DRAM
+      type: bypass
+      bypass: [Inputs, Weights, Outputs]
+      # enforce the registers to only store 1 data of the datatype it stores
+    - target: Weight_Reg
+      type: temporal
+      factors: R=1 S=1 M=1 C=1
+    - target: Weight_Reg
+      type: bypass
+      keep: [Weights]
+      bypass: [Inputs, Outputs]
+    - target: Input_Reg
+      type: temporal
+      factors: P=1 Q=1 C=1 N=1
+    - target: Input_Reg
+      type: bypass
+      keep: [Inputs]
+      bypass: [Outputs, Weights]
+    - target: Output_Reg
+      type: temporal
+      factors: P=1 Q=1 M=1 N=1
+    - target: Output_Reg
+      type: bypass
+      keep: [Outputs]
+      bypass: [Inputs, Weights]
+
+mapper:
+  optimization-metrics: [ delay, energy ]
+  live-status: False
+  num-threads: 8
+  timeout: 15000
+  victory-condition: 3000
+  algorithm: random-pruned
+  max-permutations-per-if-visit: 16
+
+arch:
+  # ============================================================
+  # Architecture Description
+  # ============================================================
+  version: 0.3
+  subtree:
+    - name: CMOS_System
+      local:
+        - name: DRAM
+          class: DRAM
+          attributes:
+            type: LPDDR4
+            width: 64
+            block-size: 4
+            word-bits: 16
+      subtree:
+        - name: CMOS_Only
+          attributes:
+            technology: 45nm
+          local:
+            - name: SRAM_Shared
+              class: smartbuffer_SRAM
+              attributes:
+                memory_depth: 3355443200  #400Mb  #16384
+                memory_width: 64
+                n_banks: 32
+                block-size: 4
+                word-bits: 16
+                read_bandwidth: 16
+                write_bandwidth: 16
+          subtree:
+          - name: PE[0..255]
+            local:
+              - name: PE_Mem
+                class: smartbuffer_RF
+                attributes:
+                  memory_depth: 192
+                  memory_width: 16
+                  block-size: 1
+                  word-bits: 16
+                  meshX: 16
+              - name: MAC
+                class: intmac
+                attributes:
+                  datawidth: 16
+                  meshX : 16
+              # input and output registers for the mac unit
+              - name: Weight_Reg
+                class: reg_storage
+                attributes:
+                  depth: 1
+                  width: 16           # width in bits
+                  meshX: 16
+              - name: Input_Reg
+                class: reg_storage
+                attributes:
+                  depth: 1
+                  width: 16           # width in bits
+                  meshX: 16
+              - name: Output_Reg
+                class: reg_storage
+                attributes:
+                  depth: 1
+                  width: 16           # width in bits
+                  meshX: 16
+
+
+# arch:
+#   technology: 40nm
+#   arithmetic:
+#     instances: 256
+#     meshX: 16
+#     word-bits: 16
+#   storage:
+#   - name: Weight_Reg
+#     class: reg_storage
+#     depth: 1
+#     width: 16
+#     meshX: 16
+#   - name: Input_Reg
+#     class: reg_storage
+#     depth: 1
+#     width: 16
+#     meshX: 16
+#   - name: Output_Reg
+#     class: reg_storage
+#     depth: 1
+#     width: 16
+#     meshX: 16 
+#   - name: PE_Mem #3Kb
+#     class: smartbuffer_RF
+#     memory_depth: 192
+#     memory_width: 16
+#     instances: 256
+#     block-size: 1
+#     meshX: 16
+#     word-bits: 16
+#   - name: SRAM_Shared
+#     class: SRAM
+#     sizeKB: 51200 #50Mb
+#     instances: 1
+#     word-bits: 16
+#     block-size: 4
+#     read_bandwith: 16
+#     write_bandwidth: 16
+#   - name: DRAM
+#     technology: DRAM
+#     instances: 1
+#     word-bits: 16
+#     block-size: 4
+#     read_bandwidth: 5.0
+#     write_bandwidth: 5.0
+
+problem:
+  instance:
+    C: 3
+    Hdilation: 1
+    Hstride: 1
+    M: 64
+    N: 1
+    P: 224
+    Q: 224
+    R: 3
+    S: 3
+    Wdilation: 1
+    Wstride: 1
+  shape:
+    coefficients:
+    - default: 1
+      name: Wstride
+    - default: 1
+      name: Hstride
+    - default: 1
+      name: Wdilation
+    - default: 1
+      name: Hdilation
+    data-spaces:
+    - name: Weights
+      projection:
+      - - - C
+      - - - M
+      - - - R
+      - - - S
+    - name: Inputs
+      projection:
+      - - - N
+      - - - C
+      - - - R
+          - Wdilation
+        - - P
+          - Wstride
+      - - - S
+          - Hdilation
+        - - Q
+          - Hstride
+    - name: Outputs
+      projection:
+      - - - N
+      - - - M
+      - - - Q
+      - - - P
+      read-write: true
+    dimensions:
+    - C
+    - M
+    - R
+    - S
+    - N
+    - P
+    - Q
+    name: CNN-Layer

@@ -1,4 +1,4 @@
-# W, H, C, N, K, S, R, Wpad, Hpad, Wstride, Hstride
+# # W, H, C, N, K, S, R, Wpad, Hpad, Wstride, Hstride
 # cnn_layers = [
 #     (224, 64, 3, 1, 64, 3, 3, 1, 1, 1, 1),
 #     (32, 32, 32, 1, 32, 3, 3, 1, 1, 1, 1),
@@ -47,7 +47,6 @@
 #     (32, 32, 32, 1, 32, 5, 5, 0, 0, 1, 1),
 #     (14, 14, 32, 1, 32, 5, 5, 0, 0, 1, 1)
 # ]
-
 # W, H, C, N, K, S, R, Wpad, Hpad, Wstride, Hstride
 cnn_layers= [
     (224,224,3,1,64,3,3,1,1,1,1),
