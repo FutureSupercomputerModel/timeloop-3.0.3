@@ -46,20 +46,40 @@ import timeloop
 import parse_timeloop_output
 import layerFuser
 
-config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy.yaml')
+if len(sys.argv) > 3:
+    config_file     = sys.argv[1]
+    raw_result_dir  = sys.argv[2]
+    stats_dir       = sys.argv[3]
+else:
+    print("Usage: config.yaml run/ results.csv")
+    sys.exit(1)
+
+#config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy.yaml')
+#config_abspath = os.path.join(root_dir, 'configs/mapper/chen-asplos2014.yaml')
+config_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file))
+
+# Create array to store important stats  
+cycles_list = [] #cycles
+energy_list = [] #energy_pJ
+energy_per_mac_list = [] #energy_per_mac
+macs_num_list = [] #macs
+
+# Create total stats variables
+total_cycles = 0 
+total_energy_net = 0 
 
 # Just test that path points to a valid config file.
 with open(config_abspath, 'r') as f:
     config = yaml.full_load(f)
 
-total_cycles = 0 
+
 for i in range(0, len(cnn_layers)):
     
     problem = cnn_layers[i]
 
     print("Preparing to run timeloop for problem index ", i)
 
-    dirname = 'run_no_dram/problem_' + str(i) + '/'
+    dirname = str(raw_result_dir) + 'problem_' + str(i) + '/'
     subprocess.check_call(['mkdir', '-p', dirname])
 
     timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)
@@ -72,7 +92,22 @@ for i in range(0, len(cnn_layers)):
         print("Stats from run:")
         pprint.pprint(stats)
         total_cycles+=stats['cycles']
+        total_energy_net+=stats['energy_pJ']
         print("problem cycles: ", stats['cycles'])
+        print("problem total energy (pJ): ", stats['energy_pJ'])
+        cycles_list.append(stats['cycles'])
+        energy_list.append(stats['energy_pJ'])
+        energy_per_mac_list.append(stats['energy_per_mac'])
+        macs_num_list.append(stats['macs'])
+
+        cycles_array = np.array(cycles_list)
+        energy_array = np.array(energy_list)
+        energy_per_mac_array = np.array(energy_per_mac_list)
+        macs_num_array = np.array(macs_num_list)
+
+result_stats = np.column_stack((np.arange(len(cnn_layers)), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
+
+np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
 
 print("DONE.")
 print("Total cycles: ", total_cycles)

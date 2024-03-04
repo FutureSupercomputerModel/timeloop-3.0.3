@@ -10,9 +10,9 @@ mapspace_constraints:
       type: spatial
       factors:  M=16 C=16
      # intuitive optimization to not tile R and S at the DRAM level
-     #- target: DRAM
-     # type: temporal
-     # factors: R=1 S=1
+    - target: DRAM
+      type: temporal
+      factors: R=1 S=1
     # optimization to constrain the amplification factor of R and S to only one register
     - target: Output_Reg
       type: temporal
@@ -30,9 +30,6 @@ architecture_constraints:
       type: temporal
       permutation: PQRS
     # NoC sending C in x direction, M in y direction; parallel-for loops for C and M only
-    - target: SRAM_Shared
-      type: bypass
-      keep: [Inputs, Weights, Outputs]
     - target: SRAM_Shared
       type: spatial
       permutation: CM
@@ -97,7 +94,7 @@ arch:
             - name: SRAM_Shared
               class: SRAM
               attributes:
-                memory_depth: 3355443200  #400Mb  #16384
+                memory_depth: 2621440  #20Mb 
                 memory_width: 64
                 n_banks: 1
                 block-size: 4
