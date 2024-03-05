@@ -120,7 +120,7 @@ energy_per_mac_array = np.array(energy_per_mac_list)
 macs_num_array = np.array(macs_num_list)
 
 result_stats = np.column_stack((np.arange(index), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
-np.savetxt(str(raw_result_dir)+"/"+stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
+np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
 
 print("DONE.")
 print("Total cycles: ", total_cycles)
