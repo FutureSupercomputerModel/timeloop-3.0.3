@@ -48,8 +48,9 @@ import layerFuser
 
 if len(sys.argv) > 3:
     config_file     = sys.argv[1]
-    raw_result_dir  = sys.argv[2]
-    stats_dir       = sys.argv[3]
+    buffer_size     = int(sys.argv[2])
+    raw_result_dir  = sys.argv[3]
+    stats_dir       = sys.argv[4]
 else:
     print("Usage: config.yaml run/ results.csv")
     sys.exit(1)
@@ -69,7 +70,7 @@ total_energy_net = 0
 # Just test that path points to a valid config file.
 with open(config_abspath, 'r') as f:
     config = yaml.full_load(f)
-fused_groups = layerFuser.fuse_layer(config, cnn_layers)
+fused_groups = layerFuser.fuse_layer(config, cnn_layers, buffer_size)
 index = 0
 for i in range(0, len(fused_groups)):
     for j in range(0, len(fused_groups[i])):
@@ -118,7 +119,7 @@ energy_array = np.array(energy_list)
 energy_per_mac_array = np.array(energy_per_mac_list)
 macs_num_array = np.array(macs_num_list)
 
-result_stats = np.column_stack((np.arange(index+1), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
+result_stats = np.column_stack((np.arange(index), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
 np.savetxt(str(raw_result_dir)+"/"+stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
 
 print("DONE.")

@@ -26,7 +26,7 @@ def infer_input_size(P_t, Q_t, cnn_layer):
     H_t = (Q_t-1)*Hstride+S
     return (W_t, H_t)
 
-def fuse_layer(config, cnn_layers):
+def fuse_layer(config, cnn_layers, buffer_size):
     initial_tile_P = 1
     initial_tile_Q = 1
     continue_fuse = False
@@ -36,7 +36,7 @@ def fuse_layer(config, cnn_layers):
     fused_layers = []
     fusing_params = []
     # IWBufferSize = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['depth'] * config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['width'] / 1024 / 8 #buffer size in KB
-    IWBufferSize = 2* 1024 #2MB
+    IWBufferSize = buffer_size* 1024 #buffer_size MB
     IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
     print("InputWeightBuffer size (KB): "+ str(IWBufferSize))
     print("InputWeight Precision: "+str(IWPrecision))
