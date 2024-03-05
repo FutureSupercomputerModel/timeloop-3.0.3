@@ -46,16 +46,36 @@ import timeloop
 import parse_timeloop_output
 import layerFuser
 
-config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy-no-dram.yaml')
+if len(sys.argv) > 3:
+    config_file     = sys.argv[1]
+    raw_result_dir  = sys.argv[2]
+    stats_dir       = sys.argv[3]
+else:
+    print("Usage: config.yaml run/ results.csv")
+    sys.exit(1)
+
+# config_abspath = os.path.join(root_dir, 'configs/mapper/sample-hierarchy-no-dram.yaml')
+config_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file))
+
+# Create array to store important stats  
+cycles_list = [] #cycles
+energy_list = [] #energy_pJ
+energy_per_mac_list = [] #energy_per_mac
+macs_num_list = [] #macs
+
+# Create total stats variables
+total_cycles = 0 
+total_energy_net = 0 
 
 # Just test that path points to a valid config file.
 with open(config_abspath, 'r') as f:
     config = yaml.full_load(f)
 fused_groups = layerFuser.fuse_layer(config, cnn_layers)
 total_cycles=0
+index=0
 for i in range(0, len(fused_groups)):
     for j in range(0, len(fused_groups[i])):
-        index = i*len(fused_groups[i])+j
+        # index = i*len(fused_groups[i])+j
         # print(fused_groups[i][j])
         input_tile_count = fused_groups[i][j][3]
         print("input_tile_count: ", input_tile_count)
@@ -64,7 +84,8 @@ for i in range(0, len(fused_groups)):
 
         print("Preparing to run timeloop for problem index ", i)
 
-        dirname = 'run_fusion/problem_' + str(index) + '/'
+        #dirname = 'run_fusion/problem_' + str(index) + '/'
+        dirname = str(raw_result_dir) + 'problem_' + str(i) + '/'
         subprocess.check_call(['mkdir', '-p', dirname])
 
         timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)
@@ -78,6 +99,36 @@ for i in range(0, len(fused_groups)):
             pprint.pprint(stats)
             total_cycles+=stats['cycles'] * input_tile_count
             print("problem cycles: ", stats['cycles'] * input_tile_count)
+            total_energy_net+=stats['energy_pJ'] * input_tile_count
+    
+            print("problem total energy (pJ): ", stats['energy_pJ'] * input_tile_count)
+            cycles_list.append(stats['cycles'] * input_tile_count)
+            energy_list.append(stats['energy_pJ'] * input_tile_count)
+            energy_per_mac_list.append(stats['energy_per_mac'] * input_tile_count)
+            macs_num_list.append(stats['macs'] * input_tile_count)
+
+            cycles_array = np.array(cycles_list)
+            energy_array = np.array(energy_list)
+            energy_per_mac_array = np.array(energy_per_mac_list)
+            macs_num_array = np.array(macs_num_list)
+        index+=1
+
+# Determine the number of iterations for the inner loop
+total_iterations = sum(len(sublist) for sublist in fused_groups)
+
+# Create a numpy array with i, j as the row name and stats['cycles'], stats['energy'], and stats['macs'] as entries for that row
+result_stats = np.column_stack((np.repeat(np.arange(len(fused_groups)), total_iterations), 
+                                np.tile(np.arange(total_iterations), len(fused_groups)), 
+                                cycles_array, 
+                                energy_array,
+                                energy_per_mac_array, 
+                                macs_num_array))
+
+# result_stats = np.column_stack((np.arange(len(fused_groups)), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
+
+# np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
+# Save the resulting array to a file
+np.savetxt(stats_dir, result_stats, delimiter=',', header='i, j, cycles, energy, energy per mac, macs', comments='')
 
 print("DONE.")
 print("Total cycles: ", total_cycles)

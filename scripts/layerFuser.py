@@ -35,7 +35,7 @@ def fuse_layer(config, cnn_layers):
     fused_groups = []
     fused_layers = []
     fusing_params = []
-    IWBufferSize = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['depth'] * config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['width'] / 1024 / 8 #buffer size in KB
+    IWBufferSize = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['memory_depth'] * config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['memory_width'] / 1024 / 8 #buffer size in KB
     IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
     print("InputWeightBuffer size (KB): "+ str(IWBufferSize))
     print("InputWeight Precision: "+str(IWPrecision))
