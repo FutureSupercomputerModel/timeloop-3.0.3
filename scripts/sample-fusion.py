@@ -47,15 +47,17 @@ import parse_timeloop_output
 import layerFuser
 
 if len(sys.argv) > 3:
-    config_file     = sys.argv[1]
-    buffer_size     = int(sys.argv[2])
-    raw_result_dir  = sys.argv[3]
-    stats_dir       = sys.argv[4]
+    config_file_no_dram     = sys.argv[1]
+    config_file_with_dram    = sys.argv[2]
+    buffer_size     = int(sys.argv[3])
+    raw_result_dir  = sys.argv[4]
+    stats_dir       = sys.argv[5]
 else:
     print("Usage: config.yaml run/ results.csv")
     sys.exit(1)
 
-config_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file))
+config_no_dram_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file_no_dram))
+config_with_dram_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file_with_dram))
 
 # Create array to store important stats  
 cycles_list = [] #cycles
@@ -68,9 +70,11 @@ total_cycles = 0
 total_energy_net = 0 
 
 # Just test that path points to a valid config file.
-with open(config_abspath, 'r') as f:
-    config = yaml.full_load(f)
-fused_groups = layerFuser.fuse_layer(config, cnn_layers, buffer_size)
+with open(config_no_dram_abspath, 'r') as f:
+    config_no_dram = yaml.full_load(f)
+with open(config_with_dram_abspath, 'r') as f:
+    config_with_dram = yaml.full_load(f)
+fused_groups = layerFuser.fuse_layer(config_no_dram, cnn_layers, buffer_size)
 index = 0
 for i in range(0, len(fused_groups)):
     for j in range(0, len(fused_groups[i])):
@@ -86,8 +90,10 @@ for i in range(0, len(fused_groups)):
 
         dirname = str(raw_result_dir) + '/problem_' + str(index) + '/'
         subprocess.check_call(['mkdir', '-p', dirname])
-
-        timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)
+        if len(fused_groups[i])>1:
+            timeloop.run_timeloop(dirname, configfile = config_no_dram_abspath, workload_bounds = problem)
+        else:
+            timeloop.run_timeloop(dirname, configfile = config_with_dram_abspath, workload_bounds = problem)
 
         stats = parse_timeloop_output.parse_timeloop_stats(dirname)
         if stats == {}:
