@@ -56,7 +56,7 @@ arch:
       - name: GlobalBuffer # 256KB buffer
         class: SRAM
         attributes:
-          depth: 819200
+          depth: 3276800
           width: 256
           block-size: 32
           word-bits: 8

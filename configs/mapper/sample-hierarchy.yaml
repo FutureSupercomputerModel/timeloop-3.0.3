@@ -27,7 +27,6 @@
 mapper:
   algorithm: exhaustive
   optimization-metrics:
-  - energy
   - delay
   search-size: 0
   victory-condition: 100
@@ -62,7 +61,7 @@ arch:
           word-bits: 8
         
       subtree:
-      - name: PE
+      - name: PE[0..255]
       
         local:
         - name: RegisterFile
@@ -85,6 +84,14 @@ mapspace:
   # Temporal
   - target: GlobalBuffer
     type: temporal
+  # Spatial
+  - target: GlobalBuffer
+    type: spatial
+    factors: C=16 K=16 R=1 S=1 P=1 Q=1
+    # permutation: CK
+    # # split: 1
+    # #do not spatially split on RSPQ
+    # factors: R=1 S=1 P=1 Q=1
 
 problem:
   shape: cnn-layer
