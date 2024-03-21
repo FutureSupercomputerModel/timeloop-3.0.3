@@ -45,6 +45,8 @@ from cnn_layers import *
 import timeloop
 import parse_timeloop_output
 import layerFuser
+import layerFuserRecursive
+import layerFuserHelper as helper
 
 if len(sys.argv) > 3:
     config_file_no_dram     = sys.argv[1]
@@ -74,59 +76,64 @@ with open(config_no_dram_abspath, 'r') as f:
     config_no_dram = yaml.full_load(f)
 with open(config_with_dram_abspath, 'r') as f:
     config_with_dram = yaml.full_load(f)
-fused_groups = layerFuser.fuse_layer(config_no_dram, cnn_layers, buffer_size)
-index = 0
-for i in range(0, len(fused_groups)):
-    for j in range(0, len(fused_groups[i])):
+# optimal_fused_groups = layerFuser.fuse_layer(config_no_dram, cnn_layers, buffer_size)
+# fused_groups = optimal_fused_groups[0]
+
+strategies = layerFuserRecursive.fuse_layer_recursive_start(config_no_dram, cnn_layers, buffer_size)
+helper.printOptimalFusedGroups(strategies)
+
+# index = 0
+# for i in range(0, len(fused_groups)):
+#     for j in range(0, len(fused_groups[i])):
         
-        # print(fused_groups[i][j])
-        input_tile_count = fused_groups[i][j][3]
-        print("input_tile_count: ", input_tile_count)
-        fused_groups[i][j][3]=1
-        problem = fused_groups[i][j]
+#         # print(fused_groups[i][j])
+#         input_tile_count = fused_groups[i][j][3]
+#         print("input_tile_count: ", input_tile_count)
+#         fused_groups[i][j][3]=1
+#         problem = fused_groups[i][j]
 
-        print("Preparing to run timeloop for problem index ", index)
-        print("Problem: ", problem)
+#         print("Preparing to run timeloop for problem index ", index)
+#         print("Problem: ", problem)
 
-        dirname = str(raw_result_dir) + '/problem_' + str(index) + '/'
-        subprocess.check_call(['mkdir', '-p', dirname])
-        if len(fused_groups[i])>1:
-            timeloop.run_timeloop(dirname, configfile = config_no_dram_abspath, workload_bounds = problem)
-        else:
-            timeloop.run_timeloop(dirname, configfile = config_with_dram_abspath, workload_bounds = problem)
+#         dirname = str(raw_result_dir) + '/problem_' + str(index) + '/'
+#         subprocess.check_call(['mkdir', '-p', dirname])
+#         if len(fused_groups[i])>1:
+#             timeloop.run_timeloop(dirname, configfile = config_no_dram_abspath, workload_bounds = problem)
+#         else:
+#             timeloop.run_timeloop(dirname, configfile = config_with_dram_abspath, workload_bounds = problem)
 
-        stats = parse_timeloop_output.parse_timeloop_stats(dirname)
-        if stats == {}:
-            print("Timeloop couldn't find a mapping for this problem within the search parameters, please check the log for more details.")
-        else:
-            print("Run successful, see log for text stats, or use the Python parser to parse the XML stats.")
-            print("Stats from run:")
-            pprint.pprint(stats)
-            # cycles
-            cycles_all_tiles = stats['cycles'] * input_tile_count
-            total_cycles+=cycles_all_tiles
-            print("problem cycles: ", cycles_all_tiles)
-            # energy
-            energy_all_tiles = stats['energy_pJ'] * input_tile_count
-            total_energy_net+=energy_all_tiles
-            print("problem total energy (pJ): ", energy_all_tiles)
-            # macs
-            macs_all_tiles = stats['macs'] * input_tile_count
-            #append lists
-            cycles_list.append(cycles_all_tiles)
-            energy_list.append(energy_all_tiles)
-            energy_per_mac_list.append(stats['energy_per_mac'])
-            macs_num_list.append(macs_all_tiles)
+#         stats = parse_timeloop_output.parse_timeloop_stats(dirname)
+#         if stats == {}:
+#             print("Timeloop couldn't find a mapping for this problem within the search parameters, please check the log for more details.")
+#         else:
+#             print("Run successful, see log for text stats, or use the Python parser to parse the XML stats.")
+#             print("Stats from run:")
+#             pprint.pprint(stats)
+#             # cycles
+#             cycles_all_tiles = stats['cycles'] * input_tile_count
+#             total_cycles+=cycles_all_tiles
+#             print("problem cycles: ", cycles_all_tiles)
+#             # energy
+#             energy_all_tiles = stats['energy_pJ'] * input_tile_count
+#             total_energy_net+=energy_all_tiles
+#             print("problem total energy (pJ): ", energy_all_tiles)
+#             # macs
+#             macs_all_tiles = stats['macs'] * input_tile_count
+#             #append lists
+#             cycles_list.append(cycles_all_tiles)
+#             energy_list.append(energy_all_tiles)
+#             energy_per_mac_list.append(stats['energy_per_mac'])
+#             macs_num_list.append(macs_all_tiles)
 
-        index+=1
+#         index+=1
 
-cycles_array = np.array(cycles_list)
-energy_array = np.array(energy_list)
-energy_per_mac_array = np.array(energy_per_mac_list)
-macs_num_array = np.array(macs_num_list)
+# cycles_array = np.array(cycles_list)
+# energy_array = np.array(energy_list)
+# energy_per_mac_array = np.array(energy_per_mac_list)
+# macs_num_array = np.array(macs_num_list)
 
-result_stats = np.column_stack((np.arange(index), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
-np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
+# result_stats = np.column_stack((np.arange(index), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
+# np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
 
-print("DONE.")
-print("Total cycles: ", total_cycles)
+# print("DONE.")
+# print("Total cycles: ", total_cycles)

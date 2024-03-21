@@ -1,34 +1,10 @@
 import yaml
+import layerFuserHelper as helper
 
-def div_ceil(numerator, denominator):
-    return (int)(numerator + denominator - 1) // denominator 
 
-def get_weight_size(WPrecision, cnn_layer):
-    return cnn_layer[2]*cnn_layer[4]*cnn_layer[5]*cnn_layer[6]
-
-def infer_output_size(cnn_layer):
-    W = cnn_layer[0]
-    H = cnn_layer[1]
-    Wstride = cnn_layer[9]
-    Hstride = cnn_layer[10]
-    R=cnn_layer[6]
-    S=cnn_layer[5]
-    P = (W-S+2*cnn_layer[7])/Wstride+1
-    Q = (H-R+2*cnn_layer[8])/Hstride+1
-    return (P, Q)
-
-def infer_input_size(P_t, Q_t, cnn_layer):
-    Wstride = cnn_layer[9]
-    Hstride = cnn_layer[10]
-    R=cnn_layer[6]
-    S=cnn_layer[5]
-    W_t = (P_t-1)*Wstride+R
-    H_t = (Q_t-1)*Hstride+S
-    return (W_t, H_t)
-
-def fuse_layer(config, cnn_layers, buffer_size):
-    initial_tile_P = 1
-    initial_tile_Q = 1
+def fuse_layer_PQ(config, cnn_layers, buffer_size, initial_tile_P, initial_tile_Q):
+    # initial_tile_P = 1
+    # initial_tile_Q = 1
     continue_fuse = False
     # groups of fused layers
     #[[cnn_layer_0, cnn_layer_1],[cnn_layer_2],[cnn_layer_3]]
@@ -38,22 +14,22 @@ def fuse_layer(config, cnn_layers, buffer_size):
     # IWBufferSize = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['depth'] * config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['width'] / 1024 / 8 #buffer size in KB
     IWBufferSize = buffer_size* 1024 #buffer_size MB
     IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
-    print("InputWeightBuffer size (KB): "+ str(IWBufferSize))
-    print("InputWeight Precision: "+str(IWPrecision))
+    # print("InputWeightBuffer size (KB): "+ str(IWBufferSize))
+    # print("InputWeight Precision: "+str(IWPrecision))
     IWBufferSize = IWBufferSize*1024*8/IWPrecision
-    print("InputWeightBuffer Max Elements: "+str(IWBufferSize))
+    # print("InputWeightBuffer Max Elements: "+str(IWBufferSize))
     Q_t = initial_tile_Q
     P_t = initial_tile_P
     IWBufferRemain = IWBufferSize
     featureStorage = 0
-    P_last, Q_last = infer_output_size(cnn_layers[-1])
-    tile_count = div_ceil(P_last, P_t)*div_ceil(Q_last, Q_t)
+    P_last, Q_last = helper.infer_output_size(cnn_layers[-1])
+    tile_count = helper.div_ceil(P_last, P_t)*helper.div_ceil(Q_last, Q_t)
     i = len(cnn_layers)-1
     while i >= 0:
-        weightSize = get_weight_size(IWPrecision, cnn_layers[i])
-        print("Layer "+str(i)+" weight size: " +str(weightSize))
+        weightSize = helper.get_weight_size(IWPrecision, cnn_layers[i])
+        # print("Layer "+str(i)+" weight size: " +str(weightSize))
         outputSize = P_t*Q_t*cnn_layers[i][4]
-        (W_t, H_t) = infer_input_size(P_t, Q_t, cnn_layers[i])
+        (W_t, H_t) = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
         P_t = W_t
         Q_t = H_t
         inputSize = W_t*H_t*cnn_layers[i][2]
@@ -72,18 +48,19 @@ def fuse_layer(config, cnn_layers, buffer_size):
             #start another fused group
             P_t=initial_tile_P
             Q_t=initial_tile_Q
-            W_t,H_t = infer_input_size(P_t, Q_t, cnn_layers[i])
+            W_t,H_t = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
+            P, Q = helper.infer_output_size(cnn_layers[i])
+            tile_count = helper.div_ceil(P, P_t)*helper.div_ceil(Q,Q_t) 
             P_t = W_t
             Q_t = H_t
-            P, Q = infer_output_size(cnn_layers[i])
-            tile_count = div_ceil(P, P_t)*div_ceil(Q,Q_t)
+            
             IWBufferRemain = IWBufferSize
             featureStorage = 0
 
             # if more than 1 layer to be fused, rewrite fused layers
             # if only 1 fused layer, do not rewrite
             # add fused layers to fused_groups
-            print(fused_layers)
+            # print(fused_layers)
             if(len(fused_layers)>1):
                 for j in range(len(fused_layers)-1,-1,-1):
                     temp_W_t = fusing_params[j][0]
@@ -122,9 +99,32 @@ def fuse_layer(config, cnn_layers, buffer_size):
     fused_layers = []
     fusing_params = []
 
-    print("Fused groups: ")
-    for i in range(len(fused_groups)):
-        print(fused_groups[i])
+
 
     return fused_groups
 
+
+
+
+
+
+
+
+def fuse_layer(config, cnn_layers, buffer_size):
+    i = len(cnn_layers)-1
+    output_P, output_Q = helper.infer_output_size(cnn_layers[i])
+    total_macs = 0
+    total_offchip_access = 0
+    all_fused_groups = []
+    for p in range(1, int(output_P)+1):
+        for q in range(1, int(output_Q)+1):
+            # print("Fusing with tile size: "+str(p)+" "+str(q))
+            fused_groups = fuse_layer_PQ(config, cnn_layers, buffer_size, p, q)
+            print("fused group "+ str(p) +" "+ str(q) + ": total macs="+ str(helper.get_total_macs(fused_groups)) + " total offchip access="+ str(helper.get_total_offchip_access(fused_groups)))
+            helper.printFusedGroup(fused_groups)
+
+            helper.updateParetoFront(all_fused_groups, fused_groups)
+
+    helper.printOptimalFusedGroups(all_fused_groups)
+    return all_fused_groups
+            
