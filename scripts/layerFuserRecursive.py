@@ -87,14 +87,14 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, initial_tile_P, initia
             fused_groups.insert(0, fused_layers)
         # helper.printFusedGroup(fused_groups)
     optimal_strategies = []
-    if i>0:
+    if i>=0:
         
-        output_P, output_Q = helper.infer_output_size(cnn_layers[i-1])
+        output_P, output_Q = helper.infer_output_size(cnn_layers[i])
         for p in range(1, int(output_P)+1):
                 # print("p: " + str(p))
             # for q in range(2, 3):
-                print("should tile last layer and fuse: " + str(should_tile_last_layer_and_fuse(config, cnn_layers[0:i], buffer_size, p, p)))
-                if(should_tile_last_layer_and_fuse(config, cnn_layers[0:i], buffer_size, p, p) or (p==int(output_P))):
+                print("should tile last layer and fuse: " + str(should_tile_last_layer_and_fuse(config, cnn_layers[0:i+1], buffer_size, p, p)))
+                if(should_tile_last_layer_and_fuse(config, cnn_layers[0:i+1], buffer_size, p, p) or (p==int(output_P))):
                     upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i], buffer_size, p, p)
                     # print("upper_optimal_strategies: " + str(len(upper_optimal_strategies)))
                     for upper_strategy in upper_optimal_strategies:
@@ -117,6 +117,7 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, initial_tile_P, initia
    
 
 def fuse_layer_recursive_start(config, cnn_layers, buffer_size):
+
     optimal_strategies = []
     i = len(cnn_layers)
     output_P, output_Q = helper.infer_output_size(cnn_layers[i-1])

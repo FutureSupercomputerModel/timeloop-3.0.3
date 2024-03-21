@@ -46,6 +46,7 @@ import timeloop
 import parse_timeloop_output
 import layerFuser
 import layerFuserRecursive
+import layerFuserRecursiveDP
 import layerFuserHelper as helper
 
 if len(sys.argv) > 3:
@@ -79,7 +80,7 @@ with open(config_with_dram_abspath, 'r') as f:
 # optimal_fused_groups = layerFuser.fuse_layer(config_no_dram, cnn_layers, buffer_size)
 # fused_groups = optimal_fused_groups[0]
 
-strategies = layerFuserRecursive.fuse_layer_recursive_start(config_no_dram, cnn_layers, buffer_size)
+strategies = layerFuserRecursiveDP.fuse_layer_recursive_start(config_no_dram, cnn_layers, buffer_size)
 helper.printOptimalFusedGroups(strategies)
 
 # index = 0
