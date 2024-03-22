@@ -80,8 +80,8 @@ with open(config_with_dram_abspath, 'r') as f:
 # optimal_fused_groups = layerFuser.fuse_layer(config_no_dram, cnn_layers, buffer_size)
 # fused_groups = optimal_fused_groups[0]
 
-strategies = layerFuserRecursiveDP.fuse_layer_recursive_start(config_no_dram, cnn_layers, buffer_size)
-helper.printOptimalFusedGroups(strategies)
+strategies = layerFuserRecursiveDP.fuse_layer_recursive_start(config_no_dram, cnn_layers[0:3], buffer_size)
+helper.printStrategies(strategies)
 
 # index = 0
 # for i in range(0, len(fused_groups)):

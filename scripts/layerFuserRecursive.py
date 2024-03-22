@@ -50,6 +50,7 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, initial_tile_P, initia
     if((IWBufferRemain-featureStorage)<weightSize):
         # print("layer "+str(i)+" weight size exceeds buffer size, thus cannot be fused")   
         fused_groups.append([list(cnn_layers[i])])
+        i = i-1
     else:
         while (IWBufferRemain-featureStorage) >= helper.get_weight_size(IWPrecision, cnn_layers[i]) and i>=0:
             
@@ -95,7 +96,7 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, initial_tile_P, initia
             # for q in range(2, 3):
                 print("should tile last layer and fuse: " + str(should_tile_last_layer_and_fuse(config, cnn_layers[0:i+1], buffer_size, p, p)))
                 if(should_tile_last_layer_and_fuse(config, cnn_layers[0:i+1], buffer_size, p, p) or (p==int(output_P))):
-                    upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i], buffer_size, p, p)
+                    upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i+1], buffer_size, p, p)
                     # print("upper_optimal_strategies: " + str(len(upper_optimal_strategies)))
                     for upper_strategy in upper_optimal_strategies:
                         # print("update pareto front")
