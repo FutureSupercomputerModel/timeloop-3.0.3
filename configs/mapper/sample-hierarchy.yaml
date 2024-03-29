@@ -30,7 +30,6 @@ mapper:
   - delay
   search-size: 0
   victory-condition: 100
-  timeout: 1000
 
 arch:
   version: 0.2
