@@ -1,7 +1,7 @@
 import subprocess
 
 processes = []
-for buffer_size in [2]:
+for buffer_size in [1, 2, 20, 100]:
     result_dir = f"result_fusion_sample_hierarchy_{buffer_size}_test"
     subprocess.check_call(['mkdir', '-p', result_dir])
     stats_file = f"{result_dir}/stats.csv"

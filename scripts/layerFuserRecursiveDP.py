@@ -1,7 +1,8 @@
 import layerFuserHelper as helper
 import copy
 def should_tile_last_layer_and_fuse(config, cnn_layers, buffer_size, initial_tile_P, initial_tile_Q):
-    IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
+    # IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
+    IWPrecision = 8
     IWBufferSize = buffer_size* 1024 #buffer_size MB
     IWBufferSize = IWBufferSize*1024*8/IWPrecision
     featureStorage = 0
@@ -17,7 +18,7 @@ def should_tile_last_layer_and_fuse(config, cnn_layers, buffer_size, initial_til
     outputSize = P_t*Q_t*cnn_layers[i][4]
     (W_t, H_t) = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
     inputSize = W_t*H_t*cnn_layers[i][2]
-    featureStorage = max(outputSize, inputSize, featureStorage)
+    featureStorage = max(outputSize+inputSize, featureStorage)
     upper_weight_size = helper.get_weight_size(IWPrecision, cnn_layers[i-1])
     if((IWBufferSize-featureStorage)<(upper_weight_size+weightSize)):
         return False
@@ -25,7 +26,7 @@ def should_tile_last_layer_and_fuse(config, cnn_layers, buffer_size, initial_til
 
     
 
-def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_layer):
+def fuse_layer_recursive(config, cnn_layers, pooling_layers, buffer_size, optimal_strategies_to_layer):
     print("calling fuse_layer_recursive "+ str(len(cnn_layers)-1))  
     continue_fuse = False
     # groups of fused layers
@@ -33,14 +34,15 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_
     
     # IWBufferSize = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['depth'] * config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['width'] / 1024 / 8 #buffer size in KB
     IWBufferSize = buffer_size* 1024 #buffer_size MB
-    IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
+    # IWPrecision = config['arch']['subtree'][0]['subtree'][0]['local'][0]['attributes']['word-bits']
+    IWPrecision = 8
     # print("InputWeightBuffer size (KB): "+ str(IWBufferSize))
     # print("InputWeight Precision: "+str(IWPrecision))
     IWBufferSize = IWBufferSize*1024*8/IWPrecision
     # print("InputWeightBuffer Max Elements: "+str(IWBufferSize))
     
     optimal_strategies = optimal_strategies_to_layer[len(cnn_layers)-1]
-
+    # strategy to fuse last layer
     P_last, Q_last = helper.infer_output_size(cnn_layers[-1])
     for initial_P in range(1, int(P_last)+1):
             initial_Q = initial_P
@@ -58,23 +60,22 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_
                 outputSize = P_t*Q_t*cnn_layers[i][4]
                 (W_t, H_t) = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
                 inputSize = W_t*H_t*cnn_layers[i][2]
-                featureStorage = max(outputSize, inputSize, featureStorage)
+                featureStorage = max(outputSize+inputSize, featureStorage)
                 while (IWBufferRemain-featureStorage) >= helper.get_weight_size(IWPrecision, cnn_layers[i]) and i>=0:
                     
                     # print("start while loop with p, i: "+ str(initial_P)+" "+ str(i))
                     
                     (W_t, H_t) = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
-                    P_t = W_t
-                    Q_t = H_t
+                    if i>=1: P_t, Q_t = helper.infer_prev_layer_output_size(W_t, H_t, pooling_layers[i-1])
                     inputSize = W_t*H_t*cnn_layers[i][2]
-                    featureStorage = max(outputSize, inputSize, featureStorage)
+                    featureStorage = max(outputSize+inputSize, featureStorage)
                     
                         
                             
                     IWBufferRemain-=helper.get_weight_size(IWPrecision, cnn_layers[i])
                    
-                    fused_layers.insert(0, list(cnn_layers[i]))
-                    fusing_params.insert(0,[W_t, H_t, tile_count])
+                    fused_layers.insert(0, copy.deepcopy(list(cnn_layers[i])))
+                    fusing_params.insert(0,copy.deepcopy([W_t, H_t, tile_count]))
                     i = i-1
 
                     
@@ -100,7 +101,7 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_
                     if i>=0:
                         upper_optimal_strategies = []
                         if(optimal_strategies_to_layer[i] == []):   
-                            upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i+1], buffer_size, optimal_strategies_to_layer)
+                            upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i+1], pooling_layers[0:i+1], buffer_size, optimal_strategies_to_layer)
                         else:
                             upper_optimal_strategies = optimal_strategies_to_layer[i]
                         # print("optimal_strategies: " + str(len(optimal_strategies)))
@@ -109,10 +110,11 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_
                             # print("combine results:")
                             # print(strategy)
                             # print(fused_groups)
-                            strategy.extend(fused_groups.copy())
+                            combined_strategy = copy.deepcopy(strategy)
+                            combined_strategy.extend(copy.deepcopy(fused_groups))
                             # print(strategy)
-                        for strategy in upper_optimal_strategies:
-                            helper.updateParetoFront(optimal_strategies, strategy)
+                        
+                            helper.updateParetoFront(optimal_strategies, combined_strategy)
                         
                         # print("upper_optimal_strategies: " + str(len(upper_optimal_strategies)))
                         # helper.printStrategies(upper_optimal_strategies)
@@ -141,16 +143,16 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_
         upper_optimal_strategies = []
         if(optimal_strategies_to_layer[i] == []):  
                  
-            upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i+1], buffer_size, optimal_strategies_to_layer)
+            upper_optimal_strategies = fuse_layer_recursive(config, cnn_layers[0:i+1], pooling_layers[0:i+1], buffer_size, optimal_strategies_to_layer)
             # print("upper_optimal_strategies: " + str(len(upper_optimal_strategies)))
         else:
             upper_optimal_strategies = optimal_strategies_to_layer[i]      
         # print("optimal_strategies: " + str(len(optimal_strategies)))
         # helper.printOptimalFusedGroups(optimal_strategies)
         for strategy in upper_optimal_strategies:
-            strategy.extend(fused_groups.copy())
-        for strategy in upper_optimal_strategies:
-            helper.updateParetoFront(optimal_strategies, strategy)
+            combined_strategy = copy.deepcopy(strategy)
+            combined_strategy.extend(copy.deepcopy(fused_groups))
+            helper.updateParetoFront(optimal_strategies, combined_strategy)
     else:
         helper.updateParetoFront(optimal_strategies, fused_groups)
 
@@ -158,16 +160,18 @@ def fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_
         # helper.printStrategies(upper_optimal_strategies)
         # print("optimal_strategies: " + str(len(optimal_strategies)))
         # helper.printStrategies(optimal_strategies)
+    # print(optimal_strategies)
+    # print(optimal_strategies_to_layer)
     print("call return")
     return optimal_strategies
    
 
-def fuse_layer_recursive_start(config, cnn_layers, buffer_size):
+def fuse_layer_recursive_start(config, cnn_layers, pooling_layers, buffer_size):
     optimal_strategies_to_layer = []
     for i in range(len(cnn_layers)):
         optimal_strategies_to_layer.append([])
-    optimal_strategies = fuse_layer_recursive(config, cnn_layers, buffer_size, optimal_strategies_to_layer)
+    optimal_strategies = fuse_layer_recursive(config, cnn_layers, pooling_layers, buffer_size, optimal_strategies_to_layer)
     for i in range(len(cnn_layers)):
         print("optimal_strategies to layer "+str(i)+":")
-        print(optimal_strategies_to_layer[i])
+        helper.printStrategies(optimal_strategies_to_layer[i])
     return optimal_strategies

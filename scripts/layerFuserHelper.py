@@ -1,3 +1,6 @@
+import copy
+import matplotlib.pyplot as plt
+
 def div_ceil(numerator, denominator):
     return (int)(numerator + denominator - 1) // denominator 
 
@@ -23,6 +26,11 @@ def infer_input_size(P_t, Q_t, cnn_layer):
     W_t = (P_t-1)*Wstride+R
     H_t = (Q_t-1)*Hstride+S
     return (W_t, H_t)
+    
+def infer_prev_layer_output_size(W_t, H_t, prev_pooling_layer):
+    P_t = W_t * prev_pooling_layer[0]
+    Q_t = H_t * prev_pooling_layer[1]
+    return (P_t, Q_t)
 
 def get_total_macs(fused_groups):
     total_macs = 0
@@ -57,19 +65,32 @@ def isStrictlyBetter(a,b,a_,b_):
 
 def printStrategy(strategy):
     for i in range(len(strategy)):
-        print(strategy[i])
+        print("\t\t"+str(strategy[i]))
 
 def printStrategies(strategies):
-    print("Pareto Optimal Strategies: ")
+    print("\tPareto Optimal Strategies: ")
     for i in range(len(strategies)):
-        print("strategy "+ str(i) + ": total macs="+ str(get_total_macs(strategies[i])) + " total offchip access="+ str(get_total_offchip_access(strategies[i])))
+        print("\tstrategy "+ str(i) + ": total macs="+ str(get_total_macs(strategies[i])) + " total offchip access="+ str(get_total_offchip_access(strategies[i])))
         printStrategy(strategies[i])
 
+def summarizeStrategies(strategies, sram_size):
+    macs = []
+    offchip_access = []
+    for i in range(len(strategies)):
+        total_macs = get_total_macs(strategies[i])
+        total_offchip_access = get_total_offchip_access(strategies[i])
+        macs.append(total_macs)
+        offchip_access.append(total_offchip_access)
+    
+    plt.scatter(macs, offchip_access)
+    plt.xlabel("Total MACs")
+    plt.ylabel("Total Off-chip Access")
+    plt.show()
+    plt.savefig(f"macs_vs_offchip_access_{sram_size}.png")
 
 def updateParetoFront(all_fused_groups, this_group):
-    this_group_local = this_group.copy()
     if all_fused_groups == []:
-        all_fused_groups.append(this_group.copy())
+        all_fused_groups.append(copy.deepcopy(this_group))
         return
     # print("all_fused_groups: "+str(len(all_fused_groups)))
     # print("all strategies: ")
@@ -87,7 +108,7 @@ def updateParetoFront(all_fused_groups, this_group):
         total_offchip_access_to_be_compared =get_total_offchip_access(all_fused_groups[i])
         # add to new_all_fused_groups if all_fused_groups[i] is not strictly worse than this_group
         if not isStrictlyWorse(this_total_macs, this_total_offchip_access, total_macs_to_be_compared, total_offchip_access_to_be_compared):
-            new_all_fused_groups.append(all_fused_groups[i].copy())
+            new_all_fused_groups.append(copy.deepcopy(all_fused_groups[i]))
     
     append = True
     # add this_group if it is not strictly worse than any group in all_fused_groups
@@ -99,7 +120,7 @@ def updateParetoFront(all_fused_groups, this_group):
             break
 
     if append:
-        new_all_fused_groups.append(this_group.copy())
+        new_all_fused_groups.append(copy.deepcopy(this_group))
     all_fused_groups.clear()
     all_fused_groups.extend(new_all_fused_groups)
     # print(len(all_fused_groups))

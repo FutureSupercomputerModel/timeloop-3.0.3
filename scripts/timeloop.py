@@ -118,11 +118,12 @@ def run_timeloop(dirname, configfile, logfile='timeloop.log', workload_bounds=No
             this_file_path = os.path.abspath(inspect.getfile(inspect.currentframe()))
             timeloop_executable_location = os.path.join(
                     os.path.dirname(this_file_path), '..', 'build', 'timeloop-mapper')
-            status = subprocess.call([timeloop_executable_location, configfile_path], stdout = outfile, stderr = outfile)
-            if status != 0:
-                subprocess.check_call(['cat', logfile_path])
-                print('Did you remember to build timeloop and set up your environment properly?')
-                sys.exit(1)
+            # status = subprocess.call([timeloop_executable_location, configfile_path], stdout = outfile, stderr = outfile)
+            # if status != 0:
+            #     subprocess.check_call(['cat', logfile_path])
+            #     print('Did you remember to build timeloop and set up your environment properly?')
+            #     sys.exit(1)
+            subprocess.run([timeloop_executable_location, configfile_path], stdout = outfile, stderr = outfile)
     t = timeit.Timer(stmt)
     time = t.timeit(1)
     print('Time to run timeloop = ', time)

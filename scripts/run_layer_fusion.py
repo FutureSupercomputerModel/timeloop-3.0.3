@@ -48,40 +48,28 @@ import layerFuser
 import layerFuserRecursive
 import layerFuserRecursiveDP
 import layerFuserHelper as helper
+import matplotlib.pyplot as plt
 
-if len(sys.argv) > 3:
-    config_file_no_dram     = sys.argv[1]
-    config_file_with_dram    = sys.argv[2]
-    buffer_size     = int(sys.argv[3])
-    raw_result_dir  = sys.argv[4]
-    # stats_dir       = sys.argv[5]
-else:
-    print("Usage: config.yaml run/ results.csv")
-    sys.exit(1)
 
-config_no_dram_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file_no_dram))
-config_with_dram_abspath = os.path.join(root_dir, 'configs/mapper/' + str(config_file_with_dram))
-
-# Create array to store important stats  
-cycles_list = [] #cycles
-energy_list = [] #energy_pJ
-energy_per_mac_list = [] #energy_per_mac
-macs_num_list = [] #macs
-
-# Create total stats variables
-total_cycles = 0 
-total_energy_net = 0 
-
-# Just test that path points to a valid config file.
-with open(config_no_dram_abspath, 'r') as f:
-    config_no_dram = yaml.full_load(f)
-with open(config_with_dram_abspath, 'r') as f:
-    config_with_dram = yaml.full_load(f)
-# optimal_fused_groups = layerFuser.fuse_layer(config_no_dram, cnn_layers, buffer_size)
-# fused_groups = optimal_fused_groups[0]
-
-strategies = layerFuserRecursiveDP.fuse_layer_recursive_start(config_no_dram, cnn_layers, pooling_layers, buffer_size)
-helper.printStrategies(strategies)
+colors = ["red", "blue", "green", "orange"]
+shapes = ["o", "s", "D", "^"]
+for buffer_size in [1, 2, 20, 100]:
+    strategies = layerFuserRecursiveDP.fuse_layer_recursive_start("", cnn_layers, pooling_layers, buffer_size)
+    helper.printStrategies(strategies)
+    macs = []
+    offchip_access = []
+    for i in range(len(strategies)):
+        total_macs = helper.get_total_macs(strategies[i])
+        total_offchip_access = helper.get_total_offchip_access(strategies[i])
+        macs.append(total_macs)
+        offchip_access.append(total_offchip_access)
+    
+    plt.scatter(macs, offchip_access, color = colors.pop(0), alpha = 0.3, marker = shapes.pop(0), label = f"Buffer Size: {buffer_size}MB")
+plt.xlabel("Total MACs")
+plt.ylabel("Total Off-chip Access")
+plt.legend()
+plt.show()
+plt.savefig(f"macs_vs_offchip_access.png",dpi=300)
 helper.summarizeStrategies(strategies, buffer_size)
 
 # strategy_index=0
