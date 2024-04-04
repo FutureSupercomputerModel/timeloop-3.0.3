@@ -79,7 +79,7 @@ for i in range(0, len(cnn_layers)):
 
     print("Preparing to run timeloop for problem index ", i)
 
-    dirname = str(raw_result_dir) + 'problem_' + str(i) + '/'
+    dirname = str(raw_result_dir) + '/problem_' + str(i) + '/'
     subprocess.check_call(['mkdir', '-p', dirname])
 
     timeloop.run_timeloop(dirname, configfile = config_abspath, workload_bounds = problem)
@@ -100,14 +100,23 @@ for i in range(0, len(cnn_layers)):
         energy_per_mac_list.append(stats['energy_per_mac'])
         macs_num_list.append(stats['macs'])
 
-        cycles_array = np.array(cycles_list)
-        energy_array = np.array(energy_list)
-        energy_per_mac_array = np.array(energy_per_mac_list)
-        macs_num_array = np.array(macs_num_list)
+cycles_array = np.array(cycles_list)
+energy_array = np.array(energy_list)
+energy_per_mac_array = np.array(energy_per_mac_list)
+macs_num_array = np.array(macs_num_list)
+
+# print("cycles list: ", cycles_list)
+# print("energy list: ", energy_list)
+# print("energy per mac list: ", energy_per_mac_list)
+# print("macs list: ", macs_num_list)
+# print("cycles array: ", cycles_array)
+# print("energy array: ", energy_array)
+# print("energy per mac array: ", energy_per_mac_array)
+# print("macs array: ", macs_num_array)
 
 result_stats = np.column_stack((np.arange(len(cnn_layers)), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
 
-np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
+np.savetxt(str(raw_result_dir)+"/"+stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
 
 print("DONE.")
 print("Total cycles: ", total_cycles)

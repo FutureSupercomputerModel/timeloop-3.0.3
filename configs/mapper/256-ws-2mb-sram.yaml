@@ -36,9 +36,9 @@ architecture_constraints:
       split: 1
       factors: R=1 S=1 P=1 Q=1
       # Store everything at the glb
-    - target: DRAM
-      type: bypass
-      bypass: [Inputs, Weights, Outputs]
+    # - target: DRAM
+    #   type: bypass
+    #   bypass: [Inputs, Weights, Outputs]
       # enforce the registers to only store 1 data of the datatype it stores
     - target: Weight_Reg
       type: temporal
@@ -96,7 +96,7 @@ arch:
               attributes:
                 memory_depth: 262144  #2Mb 
                 memory_width: 64
-                n_banks: 1
+                n_banks: 32
                 block-size: 4
                 word-bits: 16
                 read_bandwidth: 16
@@ -185,18 +185,17 @@ arch:
 #     write_bandwidth: 5.0
 
 problem:
-  instance:
-    C: 3
-    Hdilation: 1
-    Hstride: 1
-    M: 64
-    N: 1
-    P: 224
-    Q: 224
-    R: 3
-    S: 3
-    Wdilation: 1
-    Wstride: 1
+  C: 3
+  Hdilation: 1
+  Hstride: 1
+  M: 64
+  N: 1
+  P: 224
+  Q: 224
+  R: 3
+  S: 3
+  Wdilation: 1
+  Wstride: 1
   shape:
     coefficients:
     - default: 1
