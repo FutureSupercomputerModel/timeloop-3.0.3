@@ -84,68 +84,68 @@ strategies = layerFuserRecursiveDP.fuse_layer_recursive_start(config_no_dram, cn
 helper.printStrategies(strategies)
 helper.summarizeStrategies(strategies, buffer_size)
 
-# strategy_index=0
-# for fused_groups in strategies:
+strategy_index=0
+for fused_groups in strategies:
 
-#     index = 0
-#     cycles_list = [] #cycles
-#     energy_list = [] #energy_pJ
-#     energy_per_mac_list = [] #energy_per_mac
-#     macs_num_list = [] #macs
-#     for i in range(0, len(fused_groups)):
-#         for j in range(0, len(fused_groups[i])):
+    index = 0
+    cycles_list = [] #cycles
+    energy_list = [] #energy_pJ
+    energy_per_mac_list = [] #energy_per_mac
+    macs_num_list = [] #macs
+    for i in range(0, len(fused_groups)):
+        for j in range(0, len(fused_groups[i])):
             
-#             # print(fused_groups[i][j])
-#             input_tile_count = fused_groups[i][j][3]
-#             print("input_tile_count: ", input_tile_count)
-#             fused_groups[i][j][3]=1
-#             problem = fused_groups[i][j]
+            # print(fused_groups[i][j])
+            input_tile_count = fused_groups[i][j][3]
+            print("input_tile_count: ", input_tile_count)
+            fused_groups[i][j][3]=1
+            problem = fused_groups[i][j]
 
-#             print("Preparing to run timeloop for problem index ", index)
-#             print("Problem: ", problem)
+            print("Preparing to run timeloop for problem index ", index)
+            print("Problem: ", problem)
 
-#             dirname = str(raw_result_dir) + '/strategy_' + str(strategy_index)+ '/problem_' + str(index) + '/'
-#             subprocess.check_call(['mkdir', '-p', dirname])
-#             if len(fused_groups[i])>1:
-#                 timeloop.run_timeloop(dirname, configfile = config_no_dram_abspath, workload_bounds = problem)
-#             else:
-#                 timeloop.run_timeloop(dirname, configfile = config_with_dram_abspath, workload_bounds = problem)
+            dirname = str(raw_result_dir) + '/strategy_' + str(strategy_index)+ '/problem_' + str(index) + '/'
+            subprocess.check_call(['mkdir', '-p', dirname])
+            if len(fused_groups[i])>1:
+                timeloop.run_timeloop(dirname, configfile = config_no_dram_abspath, workload_bounds = problem)
+            else:
+                timeloop.run_timeloop(dirname, configfile = config_with_dram_abspath, workload_bounds = problem)
 
-#             stats = parse_timeloop_output.parse_timeloop_stats(dirname)
-#             if stats == {}:
-#                 print("Timeloop couldn't find a mapping for this problem within the search parameters, please check the log for more details.")
-#             else:
-#                 print("Run successful, see log for text stats, or use the Python parser to parse the XML stats.")
-#                 print("Stats from run:")
-#                 pprint.pprint(stats)
-#                 # cycles
-#                 cycles_all_tiles = stats['cycles'] * input_tile_count
-#                 total_cycles+=cycles_all_tiles
-#                 print("problem cycles: ", cycles_all_tiles)
-#                 # energy
-#                 energy_all_tiles = stats['energy_pJ'] * input_tile_count
-#                 total_energy_net+=energy_all_tiles
-#                 print("problem total energy (pJ): ", energy_all_tiles)
-#                 # macs
-#                 macs_all_tiles = stats['macs'] * input_tile_count
-#                 #append lists
-#                 cycles_list.append(cycles_all_tiles)
-#                 energy_list.append(energy_all_tiles)
-#                 energy_per_mac_list.append(stats['energy_per_mac'])
-#                 macs_num_list.append(macs_all_tiles)
+            stats = parse_timeloop_output.parse_timeloop_stats(dirname)
+            if stats == {}:
+                print("Timeloop couldn't find a mapping for this problem within the search parameters, please check the log for more details.")
+            else:
+                print("Run successful, see log for text stats, or use the Python parser to parse the XML stats.")
+                print("Stats from run:")
+                pprint.pprint(stats)
+                # cycles
+                cycles_all_tiles = stats['cycles'] * input_tile_count
+                total_cycles+=cycles_all_tiles
+                print("problem cycles: ", cycles_all_tiles)
+                # energy
+                energy_all_tiles = stats['energy_pJ'] * input_tile_count
+                total_energy_net+=energy_all_tiles
+                print("problem total energy (pJ): ", energy_all_tiles)
+                # macs
+                macs_all_tiles = stats['macs'] * input_tile_count
+                #append lists
+                cycles_list.append(cycles_all_tiles)
+                energy_list.append(energy_all_tiles)
+                energy_per_mac_list.append(stats['energy_per_mac'])
+                macs_num_list.append(macs_all_tiles)
 
-#             index+=1
+            index+=1
 
-#     cycles_array = np.array(cycles_list)
-#     energy_array = np.array(energy_list)
-#     energy_per_mac_array = np.array(energy_per_mac_list)
-#     macs_num_array = np.array(macs_num_list)
+    cycles_array = np.array(cycles_list)
+    energy_array = np.array(energy_list)
+    energy_per_mac_array = np.array(energy_per_mac_list)
+    macs_num_array = np.array(macs_num_list)
 
-#     result_stats = np.column_stack((np.arange(index), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
-#     stats_dir = f"{raw_result_dir}/strategy_{strategy_index}/stats.csv"
-#     np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
+    result_stats = np.column_stack((np.arange(index), cycles_array, energy_array, energy_per_mac_array, macs_num_array))
+    stats_dir = f"{raw_result_dir}/strategy_{strategy_index}/stats.csv"
+    np.savetxt(stats_dir, result_stats, delimiter=',', header='i, cycles, energy, energy per mac, macs', comments='')
 
-#     print("DONE.")
-#     print("Total cycles: ", total_cycles)
+    print("DONE.")
+    print("Total cycles: ", total_cycles)
 
-#     strategy_index += 1
+    strategy_index += 1
