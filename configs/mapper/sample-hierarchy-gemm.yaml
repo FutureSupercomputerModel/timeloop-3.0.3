@@ -27,7 +27,6 @@
 mapper:
   algorithm: exhaustive
   optimization-metrics:
-  - energy
   - delay
   search-size: 0
   victory-condition: 100
@@ -38,13 +37,13 @@ arch:
   subtree:
   - name: System
     
-    # local:
-    # - name: MainMemory
-    #   class: DRAM
-    #   attributes:
-    #     width: 256
-    #     block-size: 32
-    #     word-bits: 8
+    local:
+    - name: MainMemory
+      class: DRAM
+      attributes:
+        width: 256
+        block-size: 32
+        word-bits: 8
 
     subtree:
     - name: Chip
@@ -55,7 +54,7 @@ arch:
       - name: GlobalBuffer # 256KB buffer
         class: SRAM
         attributes:
-          depth: 819200
+          depth: 8192
           width: 256
           block-size: 32
           word-bits: 8
@@ -64,17 +63,71 @@ arch:
       - name: PE[0..255]
       
         local:
-        - name: RegisterFile
+        - name: AReg
           class: regfile
           attributes:
-            depth: 64
+            depth: 1
             width: 8
             block-size: 1
             word-bits: 8
+            meshX: 16
+        - name: BReg
+          class: regfile
+          attributes:
+            depth: 1
+            width: 8
+            block-size: 1
+            word-bits: 8
+            meshX: 16
+        - name: ZReg
+          class: regfile
+          attributes:
+            depth: 1
+            width: 8
+            block-size: 1
+            word-bits: 8
+            meshX: 16
         - name: MACC
           class: intmac
           attributes:
             datawidth: 8
+            meshX: 16
+
+architecture_constraints:
+  targets:
+    - target: MainMemory
+      type: bypass
+      bypass: []
+      keep: [A, B, Z]
+    - target: GlobalBuffer
+      type: bypass
+      bypass: []
+      keep: [A, B, Z]
+
+    - target: AReg
+      type: bypass
+      bypass: [B,Z]
+      keep: [A]
+    - target: AReg
+      type: temporal
+      factors: M=1 N=1 K=1
+
+    - target: BReg
+      type: bypass
+      bypass: [A,Z]
+      keep: [B]
+    - target: BReg
+      type: temporal
+      factors: M=1 N=1 K=1
+
+    - target: ZReg
+      type: bypass
+      bypass: [A,B]
+      keep: [Z]
+    - target: ZReg
+      type: temporal
+      factors: M=1 N=1 K=1
+
 
 mapspace:
   constraints:
@@ -82,23 +135,22 @@ mapspace:
   
 
   # Temporal
-  - target: GlobalBuffer
-    type: temporal
+  # - target: GlobalBuffer
+  #   type: temporal
   # Spatial
   - target: GlobalBuffer
     type: spatial
-    factors: C=16 K=16 R=1 S=1 P=1 Q=1
+    factors: M=16 N=16 K=1
+    # permutation: CK
+    # # split: 1
+    # #do not spatially split on RSPQ
+    # factors: R=1 S=1 P=1 Q=1
+  # - target: AReg
+  #   type: temporal
+  #   factors: M=1 N=1 K=1
 
 problem:
-  shape: cnn-layer
-  R: 3
-  S: 3
-  P: 48
-  Q: 480
-  C: 1
-  K: 16
-  N: 1
-  Wstride: 1
-  Hstride: 1
-  Wdilation: 1
-  Hdilation: 1
+  shape: gemm-ABZ
+  M: 512
+  N: 512
+  K: 512
