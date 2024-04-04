@@ -10,9 +10,9 @@ mapspace_constraints:
       type: spatial
       factors:  M=16 C=16
      # intuitive optimization to not tile R and S at the DRAM level
-     #- target: DRAM
-     # type: temporal
-     # factors: R=1 S=1
+    - target: DRAM
+      type: temporal
+      factors: R=1 S=1
     # optimization to constrain the amplification factor of R and S to only one register
     - target: Output_Reg
       type: temporal
