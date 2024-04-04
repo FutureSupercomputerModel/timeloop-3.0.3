@@ -82,8 +82,9 @@ with open(config_with_dram_abspath, 'r') as f:
 
 strategies = layerFuserRecursiveDP.fuse_layer_recursive_start(config_no_dram, cnn_layers, pooling_layers, buffer_size)
 helper.printStrategies(strategies)
-helper.summarizeStrategies(strategies, buffer_size)
+# helper.summarizeStrategies(strategies, buffer_size)
 
+print("starting timeloop execution")
 strategy_index=0
 for fused_groups in strategies:
 
