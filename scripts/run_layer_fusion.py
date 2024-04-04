@@ -70,7 +70,7 @@ plt.ylabel("Total Off-chip Access")
 plt.legend()
 plt.show()
 plt.savefig(f"macs_vs_offchip_access.png",dpi=300)
-helper.summarizeStrategies(strategies, buffer_size)
+# helper.summarizeStrategies(strategies, buffer_size)
 
 # strategy_index=0
 # for fused_groups in strategies:

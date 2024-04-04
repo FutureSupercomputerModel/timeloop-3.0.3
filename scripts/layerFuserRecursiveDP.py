@@ -72,7 +72,12 @@ def fuse_layer_recursive(config, cnn_layers, pooling_layers, buffer_size, optima
                     fused_layers.insert(0, copy.deepcopy(list(cnn_layers[i])))
                     fusing_params.insert(0,copy.deepcopy([W_t, H_t, tile_count]))
                     i = i-1
-
+                    if i>=0: 
+                        P_t, Q_t = helper.infer_prev_layer_output_size(W_t, H_t, pooling_layers[i]) 
+                        (W_t, H_t) = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
+                        outputSize = P_t*Q_t*cnn_layers[i][4]
+                        inputSize = W_t*H_t*cnn_layers[i][2]
+                        featureStorage = max(outputSize+inputSize, featureStorage)
                     
 
                     # rewrite fused layers
@@ -123,12 +128,7 @@ def fuse_layer_recursive(config, cnn_layers, pooling_layers, buffer_size, optima
                         helper.updateParetoFront(optimal_strategies, fused_groups)
                         # print(optimal_strategies)
                     
-                    if i>=0: 
-                        P_t, Q_t = helper.infer_prev_layer_output_size(W_t, H_t, pooling_layers[i]) 
-                        (W_t, H_t) = helper.infer_input_size(P_t, Q_t, cnn_layers[i])
-                        outputSize = P_t*Q_t*cnn_layers[i][4]
-                        inputSize = W_t*H_t*cnn_layers[i][2]
-                        featureStorage = max(outputSize+inputSize, featureStorage)
+                    
                 # print("optimal strategy at end of this loop:")
                 # print(optimal_strategies)
                     # option 2: continue fuse
